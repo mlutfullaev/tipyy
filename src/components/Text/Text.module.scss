@@ -1,0 +1,88 @@
+.text {
+  width: 100%;
+  max-width: 1400px;
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: 1px;
+  line-height: 30px;
+  position: relative;
+  opacity: 1;
+}
+.blur {
+  opacity: .7;
+  transition: .3s;
+  filter: blur(2px);
+  cursor: pointer;
+}
+.notFocused {
+  position: absolute;
+  opacity: 0;
+  transition: .2s;
+  pointer-events: none;
+  visibility: hidden;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--col-light);
+}
+.notFocusedActive {
+  opacity: 1;
+  visibility: visible;
+}
+.input {
+  position: absolute;
+  opacity: 0;
+  padding: 0;
+}
+.placeholder {
+  pointer-events: none;
+  user-select: none;
+  color: var(--col-middle);
+}
+.active {
+  position: relative;
+
+  &::before {
+     opacity: 0;
+     content: '';
+     height: 35px;
+     width: 1.5px;
+     background-color: #fff;
+     left: -1px;
+     top: 0;
+     position: absolute;
+     transition: .2s;
+     animation: after3s .4s;
+     animation-fill-mode: forwards;
+   }
+}
+.writed {
+  color: var(--col-light)
+}
+.gone::before {
+  left: calc(100% - 1px);
+}
+.error {
+  color: var(--col-red)
+}
+.time {
+  padding-top: 20px;
+  font-size: 16px;
+  color: var(--col-middle);
+}
+
+@keyframes after3s {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

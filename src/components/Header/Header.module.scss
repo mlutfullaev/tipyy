@@ -1,0 +1,26 @@
+.header {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  width: max-content;
+  margin: 0 auto;
+  background-color: var(--col-middle);
+  padding: 16px 40px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+  .button {
+    transition: .2s;
+
+    &:hover {
+      color: var(--col-light);
+    }
+  }
+  .active {
+    color: var(--col-light)
+  }
+}

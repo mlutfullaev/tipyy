@@ -1,0 +1,38 @@
+@import './normalize.css';
+@import './fonts';
+
+:root {
+  --col-dark: #252E3A;
+  --col-middle: #486175;
+  --col-light: #9DB2BF;
+  --col-red: #6f3a33;
+}
+
+.app {
+  height: 100vh;
+  font-family: 'JetBrains Mono';
+  background: var(--col-dark);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.txt {
+  font-weight: 400;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+}
+.author {
+  font-size: 14px;
+  position: absolute;
+  bottom: 20px;
+  width: max-content;
+  text-align: center;
+  margin: 0 auto;
+  color: var(--col-middle);
+}
