@@ -21,39 +21,20 @@ function Text()  {
   const [onFocus, setOnFocus] = useState(false)
   const timeout = useRef(null)
 
-  const typing = () => {
-    if (!start) dispatch(toggleStart())
-    // if (e.altKey || e.ctrlKey || ignoringTexts.includes(e.key)) return
-
-    // if (e.key === 'Backspace') {
-    //   if (writed.length) {
-    //     setWrited(writed => writed.slice(0, -1))
-    //   }
-    //   if (current) {
-    //     setCurrent(current => current - 1)
-    //   }
-    //   return
-    // }
-
-    // setWrited(writedS => {
-    //   const writed = [...writedS]
-    //   writed.push(e.key)
-    //   return writed
-    // })
-    // setCurrent(current => current + 1)
-  }
-
-  useEffect(() => {
-    input.current.focus()
-  }, [])
-
   useEffect(() => {
     setText(createText(settings, length))
     clearStates()
   }, [settings])
 
-  function elClass(t, i) {
+  useEffect(() => {
+    if (!Object.values(settings).includes(true)) {
+      if (onFocus) {
+        setOnFocus(false)
+      }
+    }
+  }, [onFocus])
 
+  function elClass(t, i) {
     if (i === writed.length) return `${cls.placeholder} ${cls.active}`
     if (writed.length < i) return cls.placeholder
 
@@ -70,12 +51,13 @@ function Text()  {
     setCurrent(0)
     setTime(0)
   }
+  // Select at least one parameter
 
   return (
     <div
       className={cls.text}
-      onClick={() => input.current.focus()}>
-      <div className={`${cls.notFocused} ${!onFocus ? cls.notFocusedActive : ''}`}>Click here to start typing</div>
+      onClick={() => Object.values(settings).includes(true) ? input.current.focus() : null}>
+      <div className={`${cls.notFocused} ${!onFocus ? cls.active : ''}`}>{Object.values(settings).includes(true) ? 'Click here to start typing' : 'Select at least one parameter'}</div>
       <input
         ref={input}
         onFocus={() => setOnFocus(true)}
@@ -85,9 +67,8 @@ function Text()  {
         type="text"
         className={cls.input}
       />
-      <p className={`${cls.placeholder} ${!onFocus ? cls.blur : ''}`}>
+      <p className={`${cls.placeholder} ${!onFocus ? cls.textBlur : ''}`}>
         {
-          text === 'select' ? 'Select at least one parameter' :
           text.map((t, i) => (
             <span
               className={elClass(t, i)}

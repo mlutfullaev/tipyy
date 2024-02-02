@@ -45,7 +45,7 @@ export function createText (settings, length) {
     }
     if (!Object.values(settings).includes(true)) {
       quantity = length
-      return 'select'
+      return []
     }
   }
 
