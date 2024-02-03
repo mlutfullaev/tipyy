@@ -19,20 +19,22 @@ function Text()  {
   const [writed, setWrited] = useState('')
   const input = useRef(null)
   const [onFocus, setOnFocus] = useState(false)
+  const [hasSettings, setHasSettings] = useState(true)
   const timeout = useRef(null)
 
   useEffect(() => {
-    setText(createText(settings, length))
+    setText(createText(settings))
     clearStates()
-  }, [settings])
-
-  useEffect(() => {
-    if (!Object.values(settings).includes(true)) {
-      if (onFocus) {
-        setOnFocus(false)
-      }
+    let hasSettings = true
+    Object.keys(settings).forEach(key => {
+      if (hasSettings) return
+      const setting = settings[key]
+      hasSettings = typeof setting === 'boolean' ? setting : setting.selected
+    })
+    if (!hasSettings) {
+      setHasSettings(false)
     }
-  }, [onFocus])
+  }, [settings])
 
   function elClass(t, i) {
     if (i === writed.length) return `${cls.placeholder} ${cls.active}`
@@ -51,13 +53,12 @@ function Text()  {
     setCurrent(0)
     setTime(0)
   }
-  // Select at least one parameter
 
   return (
     <div
       className={cls.text}
-      onClick={() => Object.values(settings).includes(true) ? input.current.focus() : null}>
-      <div className={`${cls.notFocused} ${!onFocus ? cls.active : ''}`}>{Object.values(settings).includes(true) ? 'Click here to start typing' : 'Select at least one parameter'}</div>
+      onClick={() => hasSettings ? input.current.focus() : null}>
+      <div className={`${cls.notFocused} ${!onFocus ? cls.active : ''}`}>{hasSettings ? 'Click here to start typing' : 'Select at least one parameter'}</div>
       <input
         ref={input}
         onFocus={() => setOnFocus(true)}

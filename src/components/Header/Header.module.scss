@@ -15,6 +15,7 @@
 
   .button {
     transition: .2s;
+    color: var(--col-dark);
 
     &:hover {
       color: var(--col-light);

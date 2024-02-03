@@ -1,15 +1,27 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
-
 const slice = createSlice({
   name: 'store',
   initialState: {
-    settings: JSON.parse(localStorage.getItem('settings')) || {
-      words: true,
+    settings: {
+      words: {
+        selected: 'EN',
+        options: [
+          'EN', 'RU', 'AR', 'ES', 'PT'
+        ]
+      },
       numbers: false,
       symbols: false,
+      codes: {
+        selected: 'prLang',
+        options: ['css', 'prLang', 'html', 'terminal']
+      },
+      space: {
+        selected: 30,
+        required: true,
+        options: [15, 30, 60, 100]
+      }
     },
     start: false,
-    length: 300,
     darkTheme: false,
     lang: 'en'
   },

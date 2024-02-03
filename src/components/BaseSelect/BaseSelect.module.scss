@@ -1,0 +1,48 @@
+.baseSelect {
+  position: relative;
+  &:hover {
+    .options {
+      max-height: 100px;
+      overflow-y: auto;
+      padding: 10px 5px;
+    }
+  }
+  .label {
+    color: var(--col-dark);
+    transition: .2s;
+  }
+  .labelActive {
+    color: var(--col-light)
+  }
+  .options {
+    min-width: 100%;
+    background-color: var(--col-middle);
+    padding: 0 5px;
+    border-radius: 4px;
+    gap: 8px;
+    position: absolute;
+    top: 100%;
+    left: -5px;
+    display: flex;
+    flex-direction: column;
+    transition: .3s;
+    max-height: 0;
+    overflow: hidden;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    button {
+      display: inline;
+      text-align: left;
+      position: relative;
+      color: var(--col-dark);
+      transition: .2s;
+
+      &[class='active'], &:hover {
+        color: var(--col-light);
+      }
+
+    }
+  }
+}

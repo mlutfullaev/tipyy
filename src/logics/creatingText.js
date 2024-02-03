@@ -1,54 +1,57 @@
-import { useSelector } from 'react-redux'
 import textLibrary from '@/assets/textLibrary.json'
 export function createText (settings, length) {
-  // const { settings, length } = useSelector(state => state.slice)
   const text = []
-  let quantity = 0;
+  let space = 0;
 
-  while (length > quantity) {
+  while (settings.space.selected > space) {
     let numberRnd = random(3)
     let numberSpace = numberRnd ? random(numberRnd) : false
     let wordRnd = random(6)
     let wordSpace = wordRnd > 2 ? random(wordRnd - 2) + 2 : false
     let symbolRnd = random(2)
     let symbolSpace = symbolRnd ? random(symbolRnd) : false
+    const codesRnd = random(2)
 
-    if (settings.words) {
+    if (settings.words.selected) {
       for (let i = 0; i <= wordRnd; i++) {
-        text.push(textLibrary.words[random(textLibrary.words.length)])
-        quantity++
+        pushRnd(textLibrary.words[settings.words.selected], text)
         if (i === wordSpace) {
-          quantity++
+          space++
           text.push(' ')
         }
       }
     }
     if (settings.numbers) {
       for (let i = 0; i <= numberRnd; i++) {
-        text.push(textLibrary.numbers[random(textLibrary.numbers.length)])
-        quantity++
+        pushRnd(textLibrary.numbers, text)
         if (i === numberSpace) {
-          quantity++
+          space++
           text.push(' ')
         }
       }
     }
     if (settings.symbols) {
       for (let i = 0; i <= symbolRnd; i++) {
-        text.push(textLibrary.symbols[random(textLibrary.symbols.length)])
-        quantity++
+        pushRnd(textLibrary.symbols, text)
         if (i === symbolSpace) {
-          quantity++
+          space++
           text.push(' ')
         }
       }
     }
-    if (!Object.values(settings).includes(true)) {
-      quantity = length
+    if (settings.codes.selected) {
+      for (let i = 0; i <= codesRnd; i++) {
+        pushRnd(textLibrary.codes[settings.codes.selected], text)
+        space++
+      }
+    }
+    if (!text.length) {
+      space = length
       return []
     }
   }
 
+  console.log(text)
   return text
 }
 
@@ -56,3 +59,12 @@ function random(num) {
   return Math.floor(Math.random() * num)
 }
 
+function pushRnd(array, text) {
+  const el = array[random(array.length)]
+  if (el.length > 1) {
+    el.split('').forEach(t => text.push(t))
+    text.push(' ')
+  } else {
+    text.push(el)
+  }
+}
