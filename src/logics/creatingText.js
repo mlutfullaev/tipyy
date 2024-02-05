@@ -1,26 +1,53 @@
 import textLibrary from '@/assets/textLibrary.json'
-export function createText (settings, length) {
-  const text = []
+export function createText ({ settings, language, words }) {
+  let text = []
   let space = 0;
 
-  while (settings.space.selected > space) {
+  while (words.selected > space) {
     let numberRnd = random(3)
     let numberSpace = numberRnd ? random(numberRnd) : false
-    let wordRnd = random(6)
-    let wordSpace = wordRnd > 2 ? random(wordRnd - 2) + 2 : false
+    let charRnd = random(6)
+    let charSpace = charRnd > 2 ? random(charRnd - 2) + 2 : false
+    let wordRnd = random(3)
     let symbolRnd = random(2)
     let symbolSpace = symbolRnd ? random(symbolRnd) : false
     const codesRnd = random(2)
 
-    if (settings.words.selected) {
-      for (let i = 0; i <= wordRnd; i++) {
-        pushRnd(textLibrary.words[settings.words.selected], text)
-        if (i === wordSpace) {
-          space++
-          text.push(' ')
+    switch (settings.letter.selected) {
+      case 'chars':
+        for (let i = 0; i <= charRnd; i++) {
+          pushRnd(textLibrary.letter[language.selected].chars, text)
+          if (i === charSpace) {
+            space++
+            text.push(' ')
+          }
         }
-      }
+        break;
+      case 'words':
+        for (let i = 0; i <= wordRnd; i++) {
+          pushRnd(textLibrary.letter[language.selected].words, text)
+          space++
+        }
+        break;
+      case 'mixed':
+        const rnd = random(3)
+        if (rnd === 2) {
+          for (let i = 0; i <= wordRnd; i++) {
+            pushRnd(textLibrary.letter[language.selected].words, text)
+            space++
+          }
+        } else {
+          for (let i = 0; i <= charRnd; i++) {
+            pushRnd(textLibrary.letter[language.selected].chars, text)
+            if (i === charSpace) {
+              space++
+              text.push(' ')
+            }
+          }
+        }
+        break;
     }
+
     if (settings.numbers) {
       for (let i = 0; i <= numberRnd; i++) {
         pushRnd(textLibrary.numbers, text)
@@ -51,7 +78,10 @@ export function createText (settings, length) {
     }
   }
 
-  console.log(text)
+  if (text[text.length - 1] === ' ') {
+    text = text.slice(0, -1)
+  }
+
   return text
 }
 

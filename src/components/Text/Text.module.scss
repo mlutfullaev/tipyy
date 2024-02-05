@@ -32,6 +32,10 @@
   position: absolute;
   opacity: 0;
   padding: 0;
+  outline: none;
+  border: none;
+  user-select: none;
+  pointer-events: none;
 }
 .placeholder {
   pointer-events: none;
@@ -70,11 +74,6 @@
   transition: .3s;
   filter: blur(2px);
   cursor: pointer;
-}
-.time {
-  padding-top: 20px;
-  font-size: 16px;
-  color: var(--col-middle);
 }
 
 @keyframes after3s {

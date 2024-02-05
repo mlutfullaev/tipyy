@@ -3,6 +3,8 @@ import cls from './Text.module.scss'
 import { createText } from '@/logics/creatingText.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleStart } from '@/store.js'
+import Time from '@/components/Time/Time.jsx'
+import Results from '@/components/Results/Results.jsx'
 
 const ignoringTexts = [
   'Tab',
@@ -11,30 +13,34 @@ const ignoringTexts = [
 ]
 
 function Text()  {
-  const { start, settings, length } = useSelector(state => state.slice)
-  const dispatch = useDispatch()
+  const slice = useSelector(state => state.slice)
   const [text, setText] = useState([])
-  const [time, setTime] = useState(0)
-  const [current, setCurrent] = useState(0)
   const [writed, setWrited] = useState('')
   const input = useRef(null)
   const [onFocus, setOnFocus] = useState(false)
   const [hasSettings, setHasSettings] = useState(true)
-  const timeout = useRef(null)
+  const [start, setStart] = useState(false)
 
   useEffect(() => {
-    setText(createText(settings))
-    clearStates()
+    setText(createText(slice))
+    setWrited('')
+    setStart(false)
     let hasSettings = true
-    Object.keys(settings).forEach(key => {
+    Object.keys(slice.settings).forEach(key => {
       if (hasSettings) return
-      const setting = settings[key]
+      const setting = slice.settings[key]
       hasSettings = typeof setting === 'boolean' ? setting : setting.selected
     })
     if (!hasSettings) {
       setHasSettings(false)
     }
-  }, [settings])
+  }, [slice.settings, slice.language, slice.words])
+
+  useEffect(() => {
+    if (writed.length === text.length && writed[writed.length - 1] === text[text.length - 1]) {
+      setStart(false)
+    }
+  }, [writed])
 
   function elClass(t, i) {
     if (i === writed.length) return `${cls.placeholder} ${cls.active}`
@@ -48,40 +54,62 @@ function Text()  {
     else return cls.error
   }
 
-  function clearStates() {
+  function getResults(time) {
+    const minutes = time / 60
+    let corrects = 0;
+    let mistakes = 0;
+    text.forEach((t, i) => {
+      if (writed[i] === t) {
+        corrects++
+      } else {
+        mistakes++
+      }
+    })
+    const wpm = (corrects / minutes) / 5
+    const result = {
+      wpm,
+      mistakes,
+      corrects,
+      time
+    }
     setWrited('')
-    setCurrent(0)
-    setTime(0)
+    setText(createText(slice))
   }
 
   return (
-    <div
-      className={cls.text}
-      onClick={() => hasSettings ? input.current.focus() : null}>
-      <div className={`${cls.notFocused} ${!onFocus ? cls.active : ''}`}>{hasSettings ? 'Click here to start typing' : 'Select at least one parameter'}</div>
-      <input
-        ref={input}
-        onFocus={() => setOnFocus(true)}
-        onBlur={() => setOnFocus(false)}
-        onInput={(e) => setWrited(e.target.value)}
-        value={writed}
-        type="text"
-        className={cls.input}
-      />
-      <p className={`${cls.placeholder} ${!onFocus ? cls.textBlur : ''}`}>
-        {
-          text.map((t, i) => (
-            <span
-              className={elClass(t, i)}
-              key={i}
-            >
+    <>
+      <div
+        className={cls.text}
+        onClick={() => hasSettings ? input.current.focus() : null}>
+        <div className={`${cls.notFocused} ${!onFocus ? cls.active : ''}`}>{hasSettings ? 'Click here to start typing' : 'Select at least one parameter'}</div>
+        <input
+          ref={input}
+          onFocus={() => setOnFocus(true)}
+          onBlur={() => setOnFocus(false)}
+          onInput={(e) => {
+            setWrited(e.target.value)
+            if (!start) setStart(true)
+          }}
+          value={writed}
+          type="text"
+          className={cls.input}
+        />
+        <p className={`${cls.placeholder} ${!onFocus ? cls.textBlur : ''}`}>
+          {
+            text.map((t, i) => (
+              <span
+                className={elClass(t, i)}
+                key={i}
+              >
               {t}
             </span>
-          ))
-        }
-      </p>
-      {time ? <p className={cls.time}>{time}</p> : null}
-    </div>
+            ))
+          }
+        </p>
+        <Time start={start} results={getResults}/>
+      </div>
+      {/*<Results results={results}/>*/}
+    </>
   );
 };
 

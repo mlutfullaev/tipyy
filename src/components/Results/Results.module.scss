@@ -1,0 +1,13 @@
+.results {
+  border-radius: 10px;
+  padding: 20px;
+  background-color: var(--col-middle);
+  position: absolute;
+  bottom: 50px;
+  left: 50px;
+
+  h2 {
+    color: var(--col-dark);
+    font-size: 20px;
+  }
+}

@@ -1,29 +1,36 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
+// JSON.parse(localStorage.getItem('settings')) ||
 const slice = createSlice({
   name: 'store',
   initialState: {
     settings: {
-      words: {
-        selected: 'EN',
+      letter: {
+        selected: 'chars',
         options: [
-          'EN', 'RU', 'AR', 'ES', 'PT'
+          'chars', 'words', 'mixed'
         ]
       },
       numbers: false,
       symbols: false,
       codes: {
-        selected: 'prLang',
+        selected: false,
         options: ['css', 'prLang', 'html', 'terminal']
       },
-      space: {
-        selected: 30,
-        required: true,
-        options: [15, 30, 60, 100]
-      }
+    },
+    language: {
+      selected: 'en',
+      required: true,
+      options: [
+        'en', 'ru', 'es', 'pt', 'zh'
+      ]
+    },
+    words: {
+      selected: 30,
+      required: true,
+      options: [15, 30, 60, 100]
     },
     start: false,
     darkTheme: false,
-    lang: 'en'
   },
   reducers: {
     toggleTheme: (state) => {
@@ -33,8 +40,11 @@ const slice = createSlice({
       state.settings = {...state.settings, ...action.payload}
       localStorage.setItem('settings', JSON.stringify(state.settings))
     },
-    toggleLanguage: (state) => {
-      state.lang = state.lang === 'en' ? 'ru' : 'en';
+    changeLanguage: (state, action) => {
+      state.language.selected = action.payload
+    },
+    changeWords: (state, action) => {
+      state.words.selected = action.payload
     },
     toggleStart: (state) => {
       state.start = !state.start
@@ -42,7 +52,7 @@ const slice = createSlice({
   }
 })
 
-export const {toggleLanguage, toggleTheme, changeSettings, toggleStart} = slice.actions
+export const {toggleLanguage, changeLanguage, changeWords, toggleTheme, changeSettings, toggleStart} = slice.actions
 
 export const store = configureStore({
   reducer: {
