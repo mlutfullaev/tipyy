@@ -75,6 +75,21 @@
   filter: blur(2px);
   cursor: pointer;
 }
+.restart {
+  margin-top: 20px;
+  outline: none;
+  svg {
+    transition: .3s;
+    fill: var(--col-middle);
+    height: auto;
+  }
+
+  &:focus, &:hover {
+    svg {
+      fill: var(--col-light);
+    }
+  }
+}
 
 @keyframes after3s {
   0% {

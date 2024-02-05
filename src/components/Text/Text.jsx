@@ -81,6 +81,14 @@ function Text()  {
     setText(createText(slice))
   }
 
+  function restart () {
+    setStart(false)
+    setText(createText(slice))
+    setWrited('')
+    input.current.focus()
+    setOnFocus(true)
+  }
+
   return (
     <>
       <div
@@ -99,23 +107,51 @@ function Text()  {
           type="text"
           className={cls.input}
         />
-        <p className={`${cls.placeholder} ${!onFocus ? cls.textBlur : ''}`}>
-          {
-            text.map((t, i) => (
-              <span
-                className={elClass(t, i)}
-                key={i + t}
-              >
+        <div className={!onFocus ? cls.textBlur : ''}>
+          <p className={cls.placeholder}>
+            {
+              text.map((t, i) => (
+                <span
+                  className={elClass(t, i)}
+                  key={i + t}
+                >
               {t}
             </span>
-            ))
-          }
-        </p>
-        <Time start={start} results={getResults}/>
+              ))
+            }
+          </p>
+          <Time start={start} results={getResults}/>
+        </div>
+        <button className={cls.restart} onClick={restart}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={20}
+            height={21}
+            fill="none"
+          >
+            <mask
+              id="a"
+              width={24}
+              height={24}
+              x={-2}
+              y={-2}
+              maskUnits="userSpaceOnUse"
+              style={{
+                maskType: "luminance",
+              }}
+            >
+              <path fill="#fff" d="M22-2H-2v24h24V-2Z" />
+            </mask>
+            <g mask="url(#a)">
+              <path d="M16.364 1.058a.75.75 0 0 1 .75.75V6.05a.75.75 0 0 1-.75.75h-4.243a.75.75 0 0 1 0-1.5h2.36A7.251 7.251 0 0 0 4.34 15.53a.75.75 0 0 1-1.17.939A8.751 8.751 0 0 1 15.614 4.288v-2.48a.75.75 0 0 1 .75-.75Zm1.171 7.146a.75.75 0 0 1 .918.53A8.753 8.753 0 0 1 6.172 18.87a.75.75 0 0 1 .656-1.348 7.253 7.253 0 0 0 10.176-8.4.75.75 0 0 1 .531-.918Z" />
+            </g>
+          </svg>
+
+        </button>
       </div>
       <Results results={results} close={() => setResults(null)}/>
     </>
   );
-};
+}
 
 export default Text;
