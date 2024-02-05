@@ -4,10 +4,30 @@
   background-color: var(--col-middle);
   position: absolute;
   bottom: 50px;
-  left: 50px;
+  left: -50px;
+  transition: .3s;
+  opacity: 0;
+
+  &.active {
+    opacity: 1;
+    left: 50px;
+  }
+  .close {
+    position: absolute;
+    top: 20px;
+    font-size: 22px;
+    right: 18px;
+    color: var(--col-light)
+  }
 
   h2 {
     color: var(--col-dark);
     font-size: 20px;
+    padding: 0 20px 10px 0;
+  }
+  p {
+    color: var(--col-light);
+    font-size: 16px;
+    padding-top: 10px;
   }
 }

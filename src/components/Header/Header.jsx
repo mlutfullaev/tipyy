@@ -25,6 +25,7 @@ const Header = () => {
           )
           else return (
             <BaseSelect
+              key={setting}
               label={setting}
               data={settings[setting]}
               change={(option) => dispatch(changeSettings({[setting]: {...settings[setting], selected: option}}))}

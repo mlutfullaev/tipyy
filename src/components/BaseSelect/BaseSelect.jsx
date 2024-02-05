@@ -15,6 +15,7 @@ const BaseSelect = ({data, label, change}) => {
         {
           data.options.map(option => (
             <button
+              key={option}
               onClick={() => onClick(option)}
               className={data.selected === option ? 'active' : ''}
             >{option}</button>

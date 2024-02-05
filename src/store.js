@@ -3,7 +3,7 @@ import { configureStore, createSlice } from '@reduxjs/toolkit'
 const slice = createSlice({
   name: 'store',
   initialState: {
-    settings: {
+    settings: JSON.parse(localStorage.getItem('settings')) || {
       letter: {
         selected: 'chars',
         options: [
@@ -18,14 +18,14 @@ const slice = createSlice({
       },
     },
     language: {
-      selected: 'en',
+      selected: localStorage.getItem('language') || 'en',
       required: true,
       options: [
         'en', 'ru', 'es', 'pt', 'zh'
       ]
     },
     words: {
-      selected: 30,
+      selected: JSON.parse(localStorage.getItem('words')) || 30,
       required: true,
       options: [15, 30, 60, 100]
     },
@@ -41,9 +41,11 @@ const slice = createSlice({
       localStorage.setItem('settings', JSON.stringify(state.settings))
     },
     changeLanguage: (state, action) => {
+      localStorage.setItem('language', action.payload)
       state.language.selected = action.payload
     },
     changeWords: (state, action) => {
+      localStorage.setItem('words', action.payload)
       state.words.selected = action.payload
     },
     toggleStart: (state) => {

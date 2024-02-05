@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import cls from './Text.module.scss'
 import { createText } from '@/logics/creatingText.js'
-import { useDispatch, useSelector } from 'react-redux'
-import { toggleStart } from '@/store.js'
+import { useSelector } from 'react-redux'
 import Time from '@/components/Time/Time.jsx'
 import Results from '@/components/Results/Results.jsx'
 
@@ -20,6 +19,7 @@ function Text()  {
   const [onFocus, setOnFocus] = useState(false)
   const [hasSettings, setHasSettings] = useState(true)
   const [start, setStart] = useState(false)
+  const [results, setResults] = useState(null)
 
   useEffect(() => {
     setText(createText(slice))
@@ -55,6 +55,7 @@ function Text()  {
   }
 
   function getResults(time) {
+    if (writed.length < text.length) return
     const minutes = time / 60
     let corrects = 0;
     let mistakes = 0;
@@ -65,13 +66,17 @@ function Text()  {
         mistakes++
       }
     })
-    const wpm = (corrects / minutes) / 5
+    const wpm = ((corrects / minutes) / 5).toFixed()
     const result = {
       wpm,
       mistakes,
       corrects,
       time
     }
+    setResults(result)
+    setTimeout(() => {
+      setResults(null)
+    }, 5000)
     setWrited('')
     setText(createText(slice))
   }
@@ -99,7 +104,7 @@ function Text()  {
             text.map((t, i) => (
               <span
                 className={elClass(t, i)}
-                key={i}
+                key={i + t}
               >
               {t}
             </span>
@@ -108,7 +113,7 @@ function Text()  {
         </p>
         <Time start={start} results={getResults}/>
       </div>
-      {/*<Results results={results}/>*/}
+      <Results results={results} close={() => setResults(null)}/>
     </>
   );
 };
