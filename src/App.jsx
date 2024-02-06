@@ -7,7 +7,7 @@ const App = () => {
     <div className='app'>
       <Header />
       <Text />
-      <p className="author">created by @mlutfullaev</p>
+      <p className="author">created by <a style={{ color: 'inherit'}} href="https://t.me/mlutfullaev">@mlutfullaev</a></p>
     </div>
   )
 }

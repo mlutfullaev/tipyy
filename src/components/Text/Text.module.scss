@@ -1,5 +1,6 @@
 .text {
   width: 100%;
+  margin: 0 20px;
   max-width: 1400px;
   font-size: 24px;
   text-align: center;
@@ -7,6 +8,12 @@
   line-height: 30px;
   position: relative;
   opacity: 1;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+    line-height: 25px;
+    letter-spacing: 1px;
+  }
 }
 .notFocused {
   position: absolute;
@@ -29,6 +36,7 @@
   }
 }
 .input {
+  width: 0;
   position: absolute;
   opacity: 0;
   padding: 0;
@@ -42,6 +50,16 @@
   user-select: none;
   color: var(--col-middle);
 
+  span {
+    display: inline-block;
+    min-width: 15px;
+    min-height: 23px;
+
+    @media (max-width: 768px) {
+      min-height: 16px;
+      min-width: 10px;
+    }
+  }
   .active {
     position: relative;
 
@@ -57,6 +75,10 @@
       transition: .2s;
       animation: after3s .4s;
       animation-fill-mode: forwards;
+
+      @media (max-width: 768px) {
+        height: 25px;
+      }
     }
   }
   .writed {

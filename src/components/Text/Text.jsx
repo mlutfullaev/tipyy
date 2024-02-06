@@ -25,14 +25,14 @@ function Text()  {
     setText(createText(slice))
     setWrited('')
     setStart(false)
-    let hasSettings = true
+    let hasSettingsLocal = false
     Object.keys(slice.settings).forEach(key => {
-      if (hasSettings) return
+      if (hasSettingsLocal) return
       const setting = slice.settings[key]
-      hasSettings = typeof setting === 'boolean' ? setting : setting.selected
+      hasSettingsLocal = typeof setting === 'boolean' ? setting : setting.selected
     })
-    if (!hasSettings) {
-      setHasSettings(false)
+    if (hasSettingsLocal !== hasSettings) {
+      setHasSettings(hasSettingsLocal)
     }
   }, [slice.settings, slice.language, slice.words])
 
@@ -115,7 +115,7 @@ function Text()  {
                   className={elClass(t, i)}
                   key={i + t}
                 >
-              {t}
+              {t === ' ' ? writed[i] || ' ' : t}
             </span>
               ))
             }
