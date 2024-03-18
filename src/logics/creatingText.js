@@ -1,5 +1,6 @@
 import textLibrary from '@/assets/textLibrary.json'
-export function createText ({ settings, language, words }) {
+
+export function createText({settings, language, words}) {
   let text = []
   let space = 0;
 

@@ -22,7 +22,11 @@ function Text()  {
   const [results, setResults] = useState(null)
 
   useEffect(() => {
-    setText(createText(slice))
+    if (slice.customTyping.length > 1){
+      setText(slice.customTyping)
+    } else {
+      setText(createText(slice))
+    }
     setWrited('')
     setStart(false)
     let hasSettingsLocal = false
