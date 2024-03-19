@@ -7,6 +7,17 @@
     width: 80%;
     height: 50vh;
     outline: none;
+    background: var(--col-light);
+    border-radius: 10px;
+    padding: 10px;
+    color: var(--col-dark);
+
+    &::placeholder {
+      color: var(--col-dark);
+    }
+  }
+  .error {
+    border: 1px solid red;
   }
   &-button {
     color: var(--col-light);

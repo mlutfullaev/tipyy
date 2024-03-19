@@ -6,18 +6,27 @@ import {useDispatch} from "react-redux";
 import {addCustom} from "../../store.js";
 const Index = () => {
   const [custom, setCustom] = useState('')
+  const [error, setError] = useState(false)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const changeState = () => {
+  const changeState = (e) => {
+    e.stopPropagation()
+    if (!custom.length) {
+      return setError(true)
+    }
     const toType = custom.split('')
     navigate('/')
     dispatch(addCustom(toType))
   }
 
+  const close = () => {
+    navigate('/')
+  }
+
   return (
-    <div className={`app ${cls.custom}`}>
-      <textarea className={cls['custom-input']} placeholder={'Enter your custom text here'} value={custom} onChange={(e)=> setCustom(e.target.value)}/>
-      <button className={cls['custom-button']} onClick={()=> changeState()}>Accept</button>
+    <div className={`app ${cls.custom}`} onClick={close}>
+      <textarea className={`${cls['custom-input']} ${error && !custom.length ? cls['error'] : ''}`} onClick={(e) => e.stopPropagation()} placeholder={'Enter your custom text here'} value={custom} onChange={(e)=> setCustom(e.target.value)}/>
+      <button className={cls['custom-button']} onClick={changeState}>Accept</button>
     </div>
   );
 };
