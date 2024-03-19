@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { changeLanguage, changeSettings, changeWords } from '@/store.js'
 import BaseSelect from '@/components/BaseSelect/BaseSelect.jsx'
+import {Link} from "react-router-dom";
 
 const Header = () => {
   const {settings, language, words} = useSelector(state => state.slice)
@@ -50,6 +51,8 @@ const Header = () => {
           data={words}
           change={(option) => dispatch(changeWords(option))}
         />
+        <div className={cls.line}></div>
+        <Link className={cls.link} to='/custom'>custom</Link>
       </nav>
     </header>
   )

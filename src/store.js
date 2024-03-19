@@ -3,6 +3,7 @@ import { configureStore, createSlice } from '@reduxjs/toolkit'
 const slice = createSlice({
   name: 'store',
   initialState: {
+    customTyping: [],
     settings: JSON.parse(localStorage.getItem('settings')) || {
       letter: {
         selected: 'chars',
@@ -50,11 +51,14 @@ const slice = createSlice({
     },
     toggleStart: (state) => {
       state.start = !state.start
+    },
+    addCustom: (state, action) => {
+      state.customTyping = action.payload
     }
   }
 })
 
-export const {toggleLanguage, changeLanguage, changeWords, toggleTheme, changeSettings, toggleStart} = slice.actions
+export const {toggleLanguage, changeLanguage, changeWords, toggleTheme, changeSettings, toggleStart, addCustom} = slice.actions
 
 export const store = configureStore({
   reducer: {

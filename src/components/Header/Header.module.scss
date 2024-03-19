@@ -55,6 +55,14 @@
       height: 2px;
     }
   }
+  .link {
+    transition: 0.2s;
+    text-decoration: none;
+    color: var(--col-dark);
+    &:hover {
+      color: var(--col-light);
+    }
+  }
 }
 
 .burger {
